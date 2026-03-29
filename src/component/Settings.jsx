@@ -69,6 +69,7 @@ export default function Settings() {
           <p className="text-2xl font-semibold text-white/80 mb-6 text-center tracking-wider">
             Configurações do Companion
           </p>
+          <div className='h-0.5 w-full max-w-104 bg-[#ff914d] rounded-full mb-10 mx-auto'></div>
           
           
           <div className="flex flex-col text-center mt-10 ml-5 mr-5 gap-12">
@@ -101,6 +102,8 @@ export default function Settings() {
           <p className="text-2xl font-semibold text-white/80 mb-6 text-center tracking-wider">
             Áreas do Conhecimento
           </p>
+          <div className='h-0.5 w-full max-w-104 bg-[#ff914d] rounded-full mb-10 mx-auto'></div>
+
           <div className="flex flex-col mt-9 gap-6">
             {areas.map(area => (
               <div key={area} className="flex items-center gap-12">
@@ -122,10 +125,12 @@ export default function Settings() {
       </div>
 
       {/* Configurações da conta */}
-      <div className="max-w-4xl mx-auto mt-30">
+      <div className="max-w-4xl mx-auto mt-30 pb-100">
         <p className="text-2xl font-semibold text-white/80 mb-6 text-center tracking-wider">
           Configurações da conta
         </p>
+        <div className='h-0.5 w-full max-w-104 bg-[#ff914d] rounded-full mb-15 mx-auto'></div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
 
           <div className="flex flex-col gap-4">
@@ -133,15 +138,15 @@ export default function Settings() {
               <div key={item} className="flex items-center gap-3">
                 <button
                   onClick={() => toggleConta(item)}
-                  className={`w-10 h-5 rounded-full transition-all duration-300 relative cursor-pointer flex-shrink-0 ${
+                  className={`w-14 h-8 rounded-full transition-all duration-300 relative cursor-pointer flex-shrink-0 ${
                     toggledConta[item] ? 'bg-white/80' : 'bg-white/20'
                   }`}
                 >
-                  <span className={`absolute top-0.5 w-4 h-4 rounded-full transition-all duration-300 ${
-                    toggledConta[item] ? 'left-5 bg-orange-500' : 'left-0.5 bg-white/60'
+                  <span className={`absolute top-0.5 w-7 h-7 rounded-full transition-all duration-300 ${
+                    toggledConta[item] ? 'left-6.5 bg-orange-500' : 'left-1 bg-white/60'
                   }`} />
                 </button>
-                <span className="text-[13px] text-white/90">{item}</span>
+                <span className="text-[18px] text-white/90">{item}</span>
               </div>
             ))}
           </div>
