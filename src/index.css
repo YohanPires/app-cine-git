@@ -13,6 +13,18 @@
   animation: shimmer-ui 3s linear infinite;
 }
 
+@keyframes pulse-fast {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@utility animate-pulse-fast {
+  animation: pulse-fast 1s ease-in-out infinite;
+}
+
+
+
+
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
@@ -59,4 +71,71 @@ input[type='range']::-moz-range-progress {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+
+
+
+@import "tailwindcss";
+
+@layer utilities {
+  .glitch {
+    position: relative;
+    display: inline-block;
+    animation: glitch-animation 1s linear infinite;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+   .glitch::before {
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    animation: glitch-animation-top var(--g-top, 5s) linear infinite;
+  }
+  
+  .glitch::after {
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    animation: glitch-animation-bottom var(--g-bottom, 2.5s) linear infinite;
+  }
+
+  @keyframes glitch-animation {
+    2%, 64% {
+      transform: translate(0px, 0);
+    }
+    4%, 60% {
+      transform: translate(-1px, 0);
+    }
+    62% {
+      transform: skew(20deg);
+    }
+  }
+
+  @keyframes glitch-animation-top {
+    2%, 64% {
+      transform: translate(1px, -1px);
+    }
+    4%, 60% {
+      transform: translate(-1px, 1px);
+    }
+    62% {
+      transform: translate(5px, -1px) skew(-10deg);
+    }
+  }
+
+  @keyframes glitch-animation-bottom {
+    2%, 64% {
+      transform: translate(-1px, 0);
+    }
+    4%, 60% {
+      transform: translate(1px, 0);
+    }
+    62% {
+      transform: translate(-5px, 2px) skew(15deg);
+    }
+  }
 }
