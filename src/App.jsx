@@ -13,7 +13,7 @@ export default function App() {
   const [showButton, setShowButton] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setPage(2), 2000) // tempo perfeito 7000
+    const timer = setTimeout(() => setPage(2), 7000) // tempo perfeito 7000
     return () => clearTimeout(timer)
   }, [])
 
