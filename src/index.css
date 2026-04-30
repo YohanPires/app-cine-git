@@ -75,9 +75,6 @@ input[type='range']::-moz-range-progress {
 
 
 
-
-@import "tailwindcss";
-
 @layer utilities {
   .glitch {
     position: relative;

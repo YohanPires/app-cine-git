@@ -5,30 +5,51 @@ import Loader from "./component/Loader"
 import AnimatedShinyText from './component/AnimatedShinyText'
 import SplitText from './component/SplitText'
 import Settings from './component/Settings'
+import Error404 from './component/Error404'
+import Login from './component/Login'
 
 export default function App() {
   const [page, setPage] = useState(1)
   const [showText1, setShowText1] = useState(false)
   const [showText2, setShowText2] = useState(false)
   const [showButton, setShowButton] = useState(false)
+  const [goTo404, setGoTo404] = useState(false)
 
+  // Transição inicial para página 2
   useEffect(() => {
     const timer = setTimeout(() => setPage(2), 7000) // tempo perfeito 7000
     return () => clearTimeout(timer)
   }, [])
 
+  // Reset dos textos ao voltar para página 1
+  useEffect(() => {
+    if (page !== 1) return
+    setShowText1(false)
+    setShowText2(false)
+    setShowButton(false)
+  }, [page])
+
+  useEffect(() => {
+  if (!goTo404 || page !== 1) return
+    const timer = setTimeout(() => {
+      setGoTo404(false)
+      setPage(5) // vai para login antes do 404
+    }, 6000)
+    return () => clearTimeout(timer)
+  }, [goTo404, page])
+
+  // Textos da página 2
   useEffect(() => {
     if (page !== 2) return
     const t1 = setTimeout(() => setShowText1(true), 1500)
     return () => clearTimeout(t1)
   }, [page])
 
-  const handleText1Complete = () => {
-    setTimeout(() => setShowText2(true), 0)
-  }
-
-  const handleText2Complete = () => {
-    setTimeout(() => setShowButton(true), 200)
+  const handleText1Complete = () => setTimeout(() => setShowText2(true), 0)
+  const handleText2Complete = () => setTimeout(() => setShowButton(true), 200)
+  const handleCancel = () => {
+    setGoTo404(true)
+    setPage(1)
   }
 
   return (
@@ -62,8 +83,6 @@ export default function App() {
         />
       </div>
 
-      {/* CONTEÚDO — só esse faz fade */}
-
       <div className="relative flex items-center justify-center h-full">
         <AnimatePresence mode="wait">
 
@@ -90,7 +109,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Loader — aparece 1.5s depois */}
+              {/* Loader */}
               <motion.div
                 className="relative z-20 justify-items-center"
                 initial={{ opacity: 0 }}
@@ -129,7 +148,7 @@ export default function App() {
                   />
                 )}
               </div>
-              
+
               <div className="h-8 flex items-center justify-center">
                 {showText2 && (
                   <SplitText
@@ -148,7 +167,7 @@ export default function App() {
                   />
                 )}
               </div>
-              
+
               <div className="h-16 flex items-center justify-center md:mt-12 xl:mt-20">
                 {showButton && (
                   <motion.div
@@ -169,7 +188,7 @@ export default function App() {
                   </motion.div>
                 )}
               </div>
-              
+
               {/* Botões canto inferior direito */}
               {showButton && (
                 <motion.div
@@ -178,7 +197,6 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 1, delay: 1, ease: 'easeInOut' }}
                 >
-                  {/* Notificações */}
                   <div className="relative hover:scale-110 transition-all duration-300 cursor-pointer">
                     <button className="w-15 h-15 rounded-full border border-white/80
                       bg-white/10 backdrop-blur-sm flex items-center justify-center
@@ -191,17 +209,14 @@ export default function App() {
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                       </svg>
                     </button>
-                    {/* Badge de notificações */}
                     <div className="absolute -top-2 -right-1 w-8 h-7 rounded-full bg-red-500
                       flex items-center justify-center">
                       <span className="text-white text-[16px] text-center font-semibold">+3</span>
                     </div>
                     <div className="absolute -top-2 -right-1 w-8 h-7 animate-ping rounded-full bg-red-500
-                      flex items-center justify-center duration-15000 transition-all opacity-70">
-                    </div>
+                      opacity-70" />
                   </div>
-              
-                  {/* Configurações */}
+
                   <button
                     onClick={() => setPage(3)}
                     className="w-15 h-15 rounded-full border border-white/80
@@ -218,7 +233,7 @@ export default function App() {
                 </motion.div>
               )}
             </motion.div>
-          )}          
+          )}
 
           {page === 3 && (
             <motion.div
@@ -229,7 +244,27 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: 'easeInOut' }}
             >
-              <Settings onCancel={() => setPage(1)} />
+              <Settings onCancel={handleCancel} />
+            </motion.div>
+          )}
+
+          {page === 4 && (
+            <Error404
+              key="page4"
+              onComplete={() => setPage(2)}
+            />
+          )}
+
+          {page === 5 && (
+            <motion.div
+              key="page5"
+              className="relative w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8, ease: 'easeInOut' }}
+              >
+              <Login onComplete={() => setPage(4)} />
             </motion.div>
           )}
 
